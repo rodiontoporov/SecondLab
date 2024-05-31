@@ -1,13 +1,13 @@
-//
-//  BinarySearchTree.hpp
-//  SecondLab
-//
-//  Created by Guest User on 31.05.2024.
-//
+#include <iostream>
 
-#ifndef BinarySearchTree_hpp
-#define BinarySearchTree_hpp
-
-#include <stdio.h>
-
-#endif /* BinarySearchTree_hpp */
+namespace my {
+class BST_Node {
+    
+};
+class BST {
+    
+};
+class BST_Iterator {
+    
+};
+};
