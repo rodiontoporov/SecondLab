@@ -1,22 +1,25 @@
-#include <iostream>
+/*#include <iostream>
 
 template<
     typename Key,
-    typename Alloc = std::allocator<Key>>
+    typename Allocator = std::allocator<Key>>
 class BST_Node {
 public:
     using key_type = Key;
     using value_type = Key;
-    using allocator_type = Alloc;
+    using allocator_type = Allocator;
     
 private:
-    using container_node_type = BST_Node<Key, Alloc>;
+    using container_node_type = BST_Node<Key, Allocator>;
     using ator_traits = std::allocator_traits<allocator_type>;
     
     typename ator_traits::template rebind_traits<container_node_type>::pointer ptr_;
     std::optional<allocator_type> alloc_;
     
-    
+    value_type value_;
+    BST_Node* left_;
+    BST_Node* right_;
+    BST_Node* parent_;
 public:
     // constructors, copy and assignment
     constexpr BST_Node() noexcept : ptr_(), alloc_() {}
@@ -101,4 +104,4 @@ void BST_Node<Key, Alloc>::swap(BST_Node& nh) noexcept(ator_traits::propagate_on
     if (!alloc_ || !nh.alloc_ || ator_traits::propagate_on_container_swap::value) {
         std::swap(alloc_, nh.alloc_); // ?
     }
-}
+}*/

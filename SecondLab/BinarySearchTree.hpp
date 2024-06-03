@@ -8,8 +8,55 @@ template<
     typename Compare = std::less<Key>,
     typename Tag = InOrderTag>
 class BST {
+    struct BST_Node {
+        Key value_;
+        BST_Node* left_;
+        BST_Node* right_;
+        BST_Node* parent_;
+        BST_Node(Key value, BST_Node* parent)
+        :   value_(value),
+            left_(nullptr),
+            right_(nullptr),
+            parent_(parent)
+        {}
+        BST_Node(Key value, BST_Node* left, BST_Node* right, BST_Node* parent)
+        :   value_(value)
+        ,   left_(left)
+        ,   right_(right)
+        ,   parent_(parent) 
+        {}
+    };
+    
     class BST_Iterator {
+    public:
         using difference_type = std::ptrdiff_t;
+        using value_type = Key;
+        
+        BST_Iterator();
+        bool operator==(const BST_Iterator&) const;
+        bool operator!=(const BST_Iterator& rhs) const;
+        
+        const Key& operator*() const; // ?
+        
+        BST_Iterator& operator++();
+        BST_Iterator  operator++(int); // post increment
+        BST_Iterator&  operator--();
+        BST_Iterator  operator--(int);
+    private:
+        void IncrementHelper(InOrderTag tag);
+        void IncrementHelper(PreOrderTag tag);
+        void IncrementHelper(PostOrderTag tag);
+        
+        void DecrementHelper(InOrderTag tag);
+        void DecrementHelper(PreOrderTag tag);
+        void DecrementHelper(PostOrderTag tag);
+        
+        friend class BST<Key, Allocator, Compare, Tag>;
+        
+        const BST_Node *ptr_;
+        const BST<Key, Allocator, Compare, Tag> *bst_;
+        
+        BST_Iterator(const BST_Node*, const BST<Key, Allocator, Compare, Tag>);
     };
     
     using key_type = Key;
@@ -22,7 +69,7 @@ class BST {
     using value_type = Key;
     using key_compare = Compare;
     using value_compare = Compare;
-    using node_type = BST_Node<Key, Allocator>;
+    using node_type = BST_Node;
     
     BST();
     BST(const key_compare c);
@@ -35,7 +82,6 @@ class BST {
     bool operator==(const BST&) const;
     bool operator!=(const BST&) const;
     auto operator=(std::initializer_list<value_type> il);
-    
     
     // destructor
     // reference operator=(BST&& rv) ?
@@ -295,3 +341,95 @@ template<
 auto BST<Key, Allocator, Compare, Tag>::value_comp() const {
     return c_;
 }
+
+// Increment (InOrder)
+template<
+    typename Key,
+    typename Allocator,
+    typename Compare,
+    typename Tag>
+void BST<Key, Allocator, Compare, Tag>::BST_Iterator::IncrementHelper(InOrderTag tag) { // ?
+    if (!ptr_) throw std::runtime_error("Attempted end() increment!");
+    
+    if (ptr_->right_) {
+        ptr_ = ptr_->right_;
+        while (ptr_->left_) {
+            ptr_ = ptr_->left_;
+        }
+    } else {
+        auto temp = ptr_;
+        while (temp->parent_ && temp == temp->parent_->right_) {
+            temp = temp->parent_;
+        }
+        ptr_ = temp->parent_;
+    }
+}
+
+// Increment (PreOrder)
+template<
+    typename Key,
+    typename Allocator,
+    typename Compare,
+    typename Tag>
+void BST<Key, Allocator, Compare, Tag>::BST_Iterator::IncrementHelper(PreOrderTag tag) {
+    if (!ptr_) throw std::runtime_error("Attempted end() increment!");
+    
+    if (ptr_->left_) {
+        ptr_ = ptr_->left_;
+    } else if (ptr_->right_) {
+        ptr_ = ptr_->right_;
+    } else {
+        while (ptr_->parent_ && ptr_ == ptr_->parent_->right_) {
+            ptr_ = ptr_->parent_;
+        }
+        if (ptr_->parent_) {
+            ptr_ = ptr_->parent_->right_;
+        }
+    }
+}
+
+// Increment (PostOrder)
+template<
+    typename Key,
+    typename Allocator,
+    typename Compare,
+    typename Tag>
+void BST<Key, Allocator, Compare, Tag>::BST_Iterator::IncrementHelper(PostOrderTag tag) {
+    if (!ptr_) throw std::runtime_error("Attempted end() increment!");
+    
+    if (!ptr_->parent_) {
+        ptr_ = nullptr;
+    }
+    if (ptr_->parent_->right_ == ptr_ || !ptr_->parent_->right_) {
+        ptr_ = ptr_->parent_;
+        return;
+    }
+    ptr_ = ptr_->parent_->right_;
+    while(ptr_ && (ptr_->left_ || ptr_->right_)) {
+        ptr_ = ptr_->left_ ? ptr_->left_ : ptr_->right_;
+    }
+}
+
+// Decrement (InOrder)
+template<
+    typename Key,
+    typename Allocator,
+    typename Compare,
+    typename Tag>
+void BST<Key, Allocator, Compare, Tag>::BST_Iterator::DecrementHelper(InOrderTag tag) {
+    if (ptr_->left_) {
+        ptr_ = ptr_->left_;
+        while (ptr_->right_ != nullptr) {
+            ptr_ = ptr_->right_;
+        }
+    } else {
+        auto prev = ptr_;
+        ptr_ = ptr_->parent_;
+        while (ptr_ != nullptr && prev == ptr_->left_) {
+            prev = ptr_;
+            ptr_ = ptr_->parent_;
+        }
+    }
+}
+
+
