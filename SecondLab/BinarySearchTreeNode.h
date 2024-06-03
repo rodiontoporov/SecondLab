@@ -15,6 +15,8 @@ private:
     
     typename ator_traits::template rebind_traits<container_node_type>::pointer ptr_;
     std::optional<allocator_type> alloc_;
+    
+    
 public:
     // constructors, copy and assignment
     constexpr BST_Node() noexcept : ptr_(), alloc_() {}
