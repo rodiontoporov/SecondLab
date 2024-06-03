@@ -19,22 +19,22 @@ class BST {
     using const_iterator = BST_Iterator;
     using difference_type = BST_Iterator::difference_type;
     using size_type = std::size_t;
-    using value_type = Key; // Erasable
-    using key_compare = Compare; // CopyConstructible
+    using value_type = Key;
+    using key_compare = Compare;
     using value_compare = Compare;
-    using node_type = BST_Node<Key, Allocator>; // ? // Public nested types are the same
+    using node_type = BST_Node<Key, Allocator>;
     
     BST();
-    BST(const Compare c);
+    BST(const key_compare c);
     BST(const BST&);
-    BST(auto i, auto j, const Compare c);
+    BST(auto i, auto j, const key_compare c);
     BST(auto i, auto j);
-    BST(std::initializer_list<value_type> il);
-    BST(std::initializer_list<value_type> il, const key_compare c)
-    {
-        BST(il.begin(), il.end(), c);
-    }
+    BST(std::initializer_list<value_type>);
+    BST(std::initializer_list<value_type>, const key_compare);
     
+    bool operator==(const BST&) const;
+    bool operator!=(const BST&) const;
+    auto operator=(std::initializer_list<value_type> il);
     
     
     // destructor
@@ -48,24 +48,10 @@ private:
     auto size() const;
     auto max_size() const;
     bool empty() const;
-    
-    bool operator==(const BST&) const;
-    bool operator!=(const BST&) const;
-    
+    auto key_comp() const;
+    auto value_comp() const;
     void swap(const BST&);
     static void swap(const BST&, const BST&);
-    
-    BST& operator=(std::initializer_list<value_type> il) {
-        // destroy all existing elements
-        // assign the range
-        return *this;
-    }
-    key_compare key_comp() const {
-        return c_;
-    }
-    value_compare value_comp() const {
-        return c_;
-    }
 public:
     
     
@@ -88,6 +74,7 @@ BST<Key, Allocator, Compare, Tag>::BST()
 ,   root_(nullptr)
 {}
 
+// Constructor from comparison object
 template<
     typename Key,
     typename Allocator,
@@ -99,6 +86,7 @@ BST<Key, Allocator, Compare, Tag>::BST(const Compare c)
 ,   root_(nullptr)
 {}
 
+// Copy constructor
 template<
     typename Key,
     typename Allocator,
@@ -108,6 +96,7 @@ BST<Key, Allocator, Compare, Tag>::BST(const BST& b) {
     // destroy all elements first and deallocate
 }
 
+// Construct from range and comparison object
 template<
     typename Key,
     typename Allocator,
@@ -121,6 +110,7 @@ BST<Key, Allocator, Compare, Tag>::BST(auto i, auto j, const Compare c)
     for (; i != j; ++i) { /* insert *i */ }
 }
 
+// Construct from range
 template<
     typename Key,
     typename Allocator,
@@ -134,6 +124,7 @@ BST<Key, Allocator, Compare, Tag>::BST(auto i, auto j)
     for (; i != j; ++i) { /* insert *i */ }
 }
 
+// Construct from initializer list
 template<
     typename Key,
     typename Allocator,
@@ -147,35 +138,19 @@ BST<Key, Allocator, Compare, Tag>::BST(std::initializer_list<Key> il)
     BST<Key, Allocator, Compare, Tag>(il.begin(), il.end());
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Construct from initializer list and comparison object
+template<
+    typename Key,
+    typename Allocator,
+    typename Compare,
+    typename Tag>
+BST<Key, Allocator, Compare, Tag>::BST(std::initializer_list<Key> il, const Compare c)
+:   size_(0)
+,   c_(Compare())
+,   root_(nullptr) // ?
+{
+    BST<Key, Allocator, Compare, Tag>(il.begin(), il.end(), c);
+}
 
 // begin()
 template<
@@ -229,6 +204,18 @@ bool BST<Key, Allocator, Compare, Tag>::operator==(const BST& b) const {
     return true;
 }
 
+// operator==
+template<
+    typename Key,
+    typename Allocator,
+    typename Compare,
+    typename Tag>
+auto BST<Key, Allocator, Compare, Tag>::operator=(std::initializer_list<Key> il) {
+    // destroy all existing elements
+    // assign the range
+    return *this;
+}
+
 // operator!=
 template<
     typename Key,
@@ -239,6 +226,7 @@ bool BST<Key, Allocator, Compare, Tag>::operator!=(const BST& b) const {
     return !(*this == b);
 }
 
+// swap(b)
 template<
     typename Key,
     typename Allocator,
@@ -248,6 +236,7 @@ void BST<Key, Allocator, Compare, Tag>::swap(const BST& b) {
     // implement
 }
 
+// swap(a, b)
 template<
     typename Key,
     typename Allocator,
@@ -257,6 +246,7 @@ void BST<Key, Allocator, Compare, Tag>::swap(const BST& a, const BST& b) {
     a.swap(b);
 }
 
+// size()
 template<
     typename Key,
     typename Allocator,
@@ -266,6 +256,7 @@ auto BST<Key, Allocator, Compare, Tag>::size() const {
     // implement
 }
 
+// max_size()
 template<
     typename Key,
     typename Allocator,
@@ -275,6 +266,7 @@ auto BST<Key, Allocator, Compare, Tag>::max_size() const {
     // implement
 }
 
+// empty()
 template<
     typename Key,
     typename Allocator,
@@ -284,6 +276,22 @@ bool BST<Key, Allocator, Compare, Tag>::empty() const {
     return begin() == end();
 }
 
+// key_comp()
+template<
+    typename Key,
+    typename Allocator,
+    typename Compare,
+    typename Tag>
+auto BST<Key, Allocator, Compare, Tag>::key_comp() const {
+    return c_;
+}
 
-
-
+// value_comp()
+template<
+    typename Key,
+    typename Allocator,
+    typename Compare,
+    typename Tag>
+auto BST<Key, Allocator, Compare, Tag>::value_comp() const {
+    return c_;
+}
