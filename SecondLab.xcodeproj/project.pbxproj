@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		AC7C52F82C0A4BC9009AA938 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC7C52F72C0A4BC9009AA938 /* main.cpp */; };
+		AC7C53052C0E0BC0009AA938 /* BST_Algorithm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC7C53042C0E0BC0009AA938 /* BST_Algorithm.cpp */; };
+		AC7C53092C0E1058009AA938 /* BST_Iterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC7C53082C0E1058009AA938 /* BST_Iterator.cpp */; };
+		AC7C530B2C0E1098009AA938 /* BST_Container.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC7C530A2C0E1098009AA938 /* BST_Container.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,8 +28,10 @@
 /* Begin PBXFileReference section */
 		AC7C52F42C0A4BC9009AA938 /* SecondLab */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SecondLab; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC7C52F72C0A4BC9009AA938 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		AC7C52FF2C0A4D3D009AA938 /* BinarySearchTree.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BinarySearchTree.hpp; sourceTree = "<group>"; };
-		AC7C53012C0B6376009AA938 /* BinarySearchTreeNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BinarySearchTreeNode.h; sourceTree = "<group>"; };
+		AC7C52FF2C0A4D3D009AA938 /* BST.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BST.h; sourceTree = "<group>"; };
+		AC7C53042C0E0BC0009AA938 /* BST_Algorithm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BST_Algorithm.cpp; sourceTree = "<group>"; };
+		AC7C53082C0E1058009AA938 /* BST_Iterator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BST_Iterator.cpp; sourceTree = "<group>"; };
+		AC7C530A2C0E1098009AA938 /* BST_Container.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BST_Container.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,8 +65,10 @@
 			isa = PBXGroup;
 			children = (
 				AC7C52F72C0A4BC9009AA938 /* main.cpp */,
-				AC7C52FF2C0A4D3D009AA938 /* BinarySearchTree.hpp */,
-				AC7C53012C0B6376009AA938 /* BinarySearchTreeNode.h */,
+				AC7C52FF2C0A4D3D009AA938 /* BST.h */,
+				AC7C53042C0E0BC0009AA938 /* BST_Algorithm.cpp */,
+				AC7C53082C0E1058009AA938 /* BST_Iterator.cpp */,
+				AC7C530A2C0E1098009AA938 /* BST_Container.cpp */,
 			);
 			path = SecondLab;
 			sourceTree = "<group>";
@@ -123,6 +130,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC7C53092C0E1058009AA938 /* BST_Iterator.cpp in Sources */,
+				AC7C530B2C0E1098009AA938 /* BST_Container.cpp in Sources */,
+				AC7C53052C0E0BC0009AA938 /* BST_Algorithm.cpp in Sources */,
 				AC7C52F82C0A4BC9009AA938 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
